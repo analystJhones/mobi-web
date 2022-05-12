@@ -1,16 +1,18 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCr75J84UsQCGxcoSgTuoN0YAChzZtsXz0'
+    })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  declarations: [ AppComponent ],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}
