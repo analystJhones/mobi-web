@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.point.nome}}</h1>
+<div mat-dialog-content>
+  <p>Carros:</p>
+  <mat-label  *ngFor="let car of data.cars">{{car.placa}} - {{car.duration}}</mat-label>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="onNoClick()">OK</button>
+</div>

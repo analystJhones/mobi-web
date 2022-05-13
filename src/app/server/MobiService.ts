@@ -20,7 +20,6 @@ export class MobiService {
     }
 
     getAllCarIntoPoint(idPoint: string){
-      console.log(idPoint);
       return this.http.get<Car[]>('http://localhost:3000/points/getRecordsOfPoint/'+idPoint);
     }
 }

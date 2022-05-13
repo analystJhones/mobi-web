@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Point } from './model/Point';
 import { Car } from './model/Car';
 import { MobiService } from './server/mobiService';
+import {ShowCarsComponent} from './show-cars/show-cars.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +16,12 @@ export class AppComponent {
   lng = 7.809007;
   points : Point[] = [];
 
-  constructor(private service: MobiService) { }
+  constructor(private service: MobiService, public dialog: MatDialog) { }
 
   ngOnInit() {
 
     this.service.getAllPoints()
       .subscribe( (response) => {
-        console.log(response);
-
         this.points = response;
         this.lat = this.points[0].latitude;
         this.lng = this.points[0].longitude;
@@ -32,38 +32,21 @@ export class AppComponent {
 
     this.service.getAllCarIntoPoint(pointMarker._id)
       .subscribe( (response) => {
-        console.log(response);
-
         const cars: Car[] = response;
 
         if (cars.length === 0) {
           alert('Não há registro para este ponto');
         }else{
-          const data = this.formatarDataString(cars[0].initialDate);
-          const message = `Placa: ${cars[0].placa} - Data: ${data} - Permanência: ${cars[0].duration}`
-          alert(message);
+          this.openDialog(pointMarker, cars);
         }
       });
   }
 
-  formatarDataString(data:any){
-    const dataFull = new Date(data);
-    var year = dataFull.getFullYear().toString();
-    var month = (1 + dataFull.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-    var day = dataFull.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    var hours = dataFull.getHours().toString();
-    hours = hours.length > 1 ? hours : `0${hours}`
-    var minutes = dataFull.getMinutes().toString();
-    minutes = minutes.length > 1 ? minutes : `0${minutes}`;
-    var seconds = dataFull.getSeconds().toString();
-    seconds = seconds.length > 1 ? seconds : `0${seconds}`;
-
-    var dataCompleta = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-
-    return dataCompleta;
+  openDialog(point : Point, cars: Car[]): void {
+    const dialogRef = this.dialog.open(ShowCarsComponent, {
+      width: '250px',
+      data: {point: point, cars: cars},
+    });
   }
-
 
 }

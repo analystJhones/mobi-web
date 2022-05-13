@@ -1,7 +1,7 @@
 <div class="content" role="main">
 
   <h1>{{ title }}</h1>
-  <agm-map [latitude]="lat" [longitude]="lng">
+  <agm-map class="w-100" [latitude]="lat" [longitude]="lng">
     <agm-marker  *ngFor="let point of points; let i = index"
       [latitude]="point.latitude"
       [longitude]="point.longitude"
